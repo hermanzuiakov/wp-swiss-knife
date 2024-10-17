@@ -11,7 +11,7 @@
  *
  * @wordpress-plugin
  * Plugin Name: WP Swiss Knife
- * Plugin URI: https://your-plugin-url.com
+ * Plugin URI: https://wp-swiss-knife.website
  * Description: A powerful developer's toolkit plugin for WordPress.
  * Version: 1.0.0
  * Author: Herman Zuiakov
@@ -27,3 +27,14 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+
+// Define constants
+define( 'WP_SWISS_KNIFE_VERSION', '1.0.0' );
+define( 'WP_SWISS_KNIFE_PATH', plugin_dir_path( __FILE__ ) );
+define( 'WP_SWISS_KNIFE_URL', plugin_dir_url( __FILE__ ) );
+
+// Load localization
+function wp_swiss_knife_load_textdomain() {
+	load_plugin_textdomain( 'wp-swiss-knife', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+}
+add_action( 'plugins_loaded', 'wp_swiss_knife_load_textdomain' );
