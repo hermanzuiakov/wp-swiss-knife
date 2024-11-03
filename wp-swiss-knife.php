@@ -73,25 +73,21 @@ spl_autoload_register( function( $class ) {
 });
 
 // Initialize the plugin
-function wp_swiss_knife_init() {
-	if ( class_exists( 'WP_Swiss_Knife_Redirects' ) ) {
-		new WP_Swiss_Knife_Redirects();
+add_action( 'plugins_loaded', function() {
+	$classes = [
+		'WP_Swiss_Knife_Redirects',
+		'WP_Swiss_Knife_Security',
+		'WP_Swiss_Knife_SVG_ICO_Support',
+		'WP_Swiss_Knife_Content',
+	];
+
+	if ( is_admin() ) {
+		$classes[] = 'WP_Swiss_Knife_Admin_Settings';
 	}
 
-	if ( class_exists( 'WP_Swiss_Knife_Security' ) ) {
-		new WP_Swiss_Knife_Security();
+	foreach ( $classes as $class ) {
+		if ( class_exists( $class ) ) {
+			new $class();
+		}
 	}
-
-	if ( class_exists( 'WP_Swiss_Knife_SVG_ICO_Support' ) ) {
-		new WP_Swiss_Knife_SVG_ICO_Support();
-	}
-
-	if ( class_exists( 'WP_Swiss_Knife_Content' ) ) {
-		new WP_Swiss_Knife_Content();
-	}
-
-	if ( is_admin() && class_exists( 'WP_Swiss_Knife_Admin_Settings' ) ) {
-		new WP_Swiss_Knife_Admin_Settings();
-	}
-}
-add_action( 'plugins_loaded', 'wp_swiss_knife_init' );
+});

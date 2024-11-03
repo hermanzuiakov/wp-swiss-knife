@@ -18,7 +18,7 @@ class WP_Swiss_Knife_SVG_ICO_Support {
 	 * Allow SVG and ICO file upload in WordPress based on settings
 	 */
 	public function allow_svg_ico_upload( $mimes ) {
-		$options = get_option( 'wp_swiss_knife_settings', array() );
+		$options = get_option( 'wp_swiss_knife_svg_ico', array() );
 
 		// Check if SVG support is enabled
 		if ( isset( $options['enable_svg_support'] ) && $options['enable_svg_support'] ) {

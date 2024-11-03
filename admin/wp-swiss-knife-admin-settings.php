@@ -17,7 +17,7 @@ class WP_Swiss_Knife_Admin_Settings {
 	}
 
 	public function settings_init() {
-		register_setting( 'wp_swiss_knife', 'wp_swiss_knife_settings' );
+		register_setting( 'wp_swiss_knife_redirects', 'wp_swiss_knife_redirects' );
 
 		// Redirect settings section
 		add_settings_section(
@@ -42,6 +42,8 @@ class WP_Swiss_Knife_Admin_Settings {
 			'wp_swiss_knife_redirects',
 			'wp_swiss_knife_section_redirects'
 		);
+
+		register_setting( 'wp_swiss_knife_security', 'wp_swiss_knife_security' );
 
 		// Security settings section
 		add_settings_section(
@@ -78,6 +80,8 @@ class WP_Swiss_Knife_Admin_Settings {
 			'wp_swiss_knife_section_security'
 		);
 
+        register_setting( 'wp_swiss_knife_svg_ico', 'wp_swiss_knife_svg_ico' );
+
         add_settings_section(
             'support_svg_ico',
             __( 'SVG and ICO Support', 'wp-swiss-knife' ),
@@ -101,6 +105,8 @@ class WP_Swiss_Knife_Admin_Settings {
             'support_svg_ico'
         );
 
+        register_setting( 'wp_swiss_knife_content', 'wp_swiss_knife_content' );
+
         add_settings_section(
             'content_settings',
             __( 'Content Settings', 'wp-swiss-knife' ),
@@ -118,10 +124,10 @@ class WP_Swiss_Knife_Admin_Settings {
 	}
 
 	public function render_http_https_field() {
-		$options = get_option( 'wp_swiss_knife_settings' );
+		$options = get_option( 'wp_swiss_knife_redirects' );
 		$value = $options['redirect_http_https'] ?? 'disabled';
 		?>
-		<select class="wp_swiss_knife_select" name="wp_swiss_knife_settings[redirect_http_https]">
+		<select class="wp_swiss_knife_select" name="wp_swiss_knife_redirects[redirect_http_https]">
 			<option value="disabled" <?php selected( $value, 'disabled' ); ?>><?php _e( 'Disabled', 'wp-swiss-knife' ); ?></option>
 			<option value="https" <?php selected( $value, 'https' ); ?>><?php _e( 'Redirect HTTP to HTTPS', 'wp-swiss-knife' ); ?></option>
 			<option value="http" <?php selected( $value, 'http' ); ?>><?php _e( 'Redirect HTTPS to HTTP', 'wp-swiss-knife' ); ?></option>
@@ -130,10 +136,10 @@ class WP_Swiss_Knife_Admin_Settings {
 	}
 
 	public function render_www_field() {
-		$options = get_option( 'wp_swiss_knife_settings' );
+		$options = get_option( 'wp_swiss_knife_redirects' );
 		$value = $options['redirect_www'] ?? 'disabled';
 		?>
-		<select class="wp_swiss_knife_select" name="wp_swiss_knife_settings[redirect_www]">
+		<select class="wp_swiss_knife_select" name="wp_swiss_knife_redirects[redirect_www]">
 			<option value="disabled" <?php selected( $value, 'disabled' ); ?>><?php _e( 'Disabled', 'wp-swiss-knife' ); ?></option>
 			<option value="www" <?php selected( $value, 'www' ); ?>><?php _e( 'Redirect to www', 'wp-swiss-knife' ); ?></option>
 			<option value="no-www" <?php selected( $value, 'no-www' ); ?>><?php _e( 'Redirect to no www', 'wp-swiss-knife' ); ?></option>
@@ -142,10 +148,10 @@ class WP_Swiss_Knife_Admin_Settings {
 	}
 
 	public function render_disable_xmlrpc_field() {
-		$options = get_option( 'wp_swiss_knife_settings' );
+		$options = get_option( 'wp_swiss_knife_security' );
 		$value = $options['disable_xmlrpc'] ?? 0;
 		?>
-		<input type="checkbox" id="disable_xmlrpc" name="wp_swiss_knife_settings[disable_xmlrpc]" value="1" <?php checked( 1, $value, true ); ?>>
+		<input type="checkbox" id="disable_xmlrpc" name="wp_swiss_knife_security[disable_xmlrpc]" value="1" <?php checked( 1, $value, true ); ?>>
         <label for="disable_xmlrpc">
             <?php _e( 'Disable XML-RPC', 'wp-swiss-knife' ); ?>
         </label>
@@ -153,10 +159,10 @@ class WP_Swiss_Knife_Admin_Settings {
 	}
 
 	public function render_disable_rest_api_field() {
-		$options = get_option( 'wp_swiss_knife_settings' );
+		$options = get_option( 'wp_swiss_knife_security' );
         $value = $options['disable_rest_api'] ?? 0;
 		?>
-        <input type="checkbox" id="disable_rest_api" name="wp_swiss_knife_settings[disable_rest_api]" value="1" <?php checked( 1, $value, true ); ?>>
+        <input type="checkbox" id="disable_rest_api" name="wp_swiss_knife_security[disable_rest_api]" value="1" <?php checked( 1, $value, true ); ?>>
         <label for="disable_rest_api">
             <?php _e( 'Disable REST API for non-authenticated users', 'wp-swiss-knife' ); ?>
         </label>
@@ -164,10 +170,10 @@ class WP_Swiss_Knife_Admin_Settings {
 	}
 
 	public function render_disable_login_errors_field() {
-		$options = get_option( 'wp_swiss_knife_settings' );
+		$options = get_option( 'wp_swiss_knife_security' );
         $value = $options['disable_login_errors'] ?? 0;
 		?>
-        <input type="checkbox" id="disable_login_errors" name="wp_swiss_knife_settings[disable_login_errors]" value="1" <?php checked( 1, $value, true ); ?>>
+        <input type="checkbox" id="disable_login_errors" name="wp_swiss_knife_security[disable_login_errors]" value="1" <?php checked( 1, $value, true ); ?>>
         <label for="disable_login_errors">
             <?php _e( 'Disable login error messages', 'wp-swiss-knife' ); ?>
         </label>
@@ -176,10 +182,10 @@ class WP_Swiss_Knife_Admin_Settings {
 
 
     public function render_enable_svg_support_field() {
-        $options = get_option( 'wp_swiss_knife_settings' );
+        $options = get_option( 'wp_swiss_knife_svg_ico' );
         $value = $options['enable_svg_support'] ?? 0;
         ?>
-        <input type="checkbox" id="enable_svg_support" name="wp_swiss_knife_settings[enable_svg_support]" value="1" <?php checked( 1, $value, true ); ?>>
+        <input type="checkbox" id="enable_svg_support" name="wp_swiss_knife_svg_ico[enable_svg_support]" value="1" <?php checked( 1, $value, true ); ?>>
         <label for="enable_svg_support">
             <?php _e( 'Enable SVG Support', 'wp-swiss-knife' ); ?>
         </label>
@@ -187,10 +193,10 @@ class WP_Swiss_Knife_Admin_Settings {
     }
 
     public function render_enable_ico_support_field() {
-        $options = get_option( 'wp_swiss_knife_settings' );
+        $options = get_option( 'wp_swiss_knife_svg_ico' );
         $value = $options['enable_ico_support'] ?? 0;
         ?>
-        <input type="checkbox" id="enable_ico_support" name="wp_swiss_knife_settings[enable_ico_support]" value="1" <?php checked( 1, $value, true ); ?>>
+        <input type="checkbox" id="enable_ico_support" name="wp_swiss_knife_svg_ico[enable_ico_support]" value="1" <?php checked( 1, $value, true ); ?>>
         <label for="enable_ico_support">
             <?php _e( 'Enable ICO Support', 'wp-swiss-knife' ); ?>
         </label>
@@ -199,10 +205,10 @@ class WP_Swiss_Knife_Admin_Settings {
 
 
     public function render_disable_guttenberg_field() {
-        $options = get_option( 'wp_swiss_knife_settings' );
+        $options = get_option( 'wp_swiss_knife_content' );
         $value = $options['disable_gutenberg'] ?? 0;
         ?>
-        <input type="checkbox" id="disable_gutenberg" name="wp_swiss_knife_settings[disable_gutenberg]" value="1" <?php checked( 1, $value, true ); ?>>
+        <input type="checkbox" id="disable_gutenberg" name="wp_swiss_knife_content[disable_gutenberg]" value="1" <?php checked( 1, $value, true ); ?>>
         <label for="disable_gutenberg">
             <?php _e( 'Disable Guttenberg', 'wp-swiss-knife' ); ?>
         </label>
@@ -221,7 +227,8 @@ class WP_Swiss_Knife_Admin_Settings {
 		</h2>
 		<form action="options.php" method="post">
 			<?php
-			settings_fields( 'wp_swiss_knife' );
+			$tab = $this->get_active_tab();
+			settings_fields( 'wp_swiss_knife_' . $tab );
 
 			switch ( $this->get_active_tab() ) {
                 case 'redirects':

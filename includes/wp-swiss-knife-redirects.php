@@ -7,7 +7,7 @@ class WP_Swiss_Knife_Redirects {
 	}
 
 	public function handle_redirects() {
-		$options = get_option( 'wp_swiss_knife_settings' );
+		$options = get_option( 'wp_swiss_knife_redirects' );
 
 		// Redirect HTTP -> HTTPS
 		if ( isset( $options['redirect_http_https'] ) && $options['redirect_http_https'] === 'https' && !is_ssl() ) {

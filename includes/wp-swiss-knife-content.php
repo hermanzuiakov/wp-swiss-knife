@@ -11,7 +11,7 @@ class WP_Swiss_Knife_Content {
 	 * Disable Gutenberg editor if the setting is enabled
 	 */
 	public function disable_gutenberg() {
-		$options = get_option( 'wp_swiss_knife_settings', array() );
+		$options = get_option( 'wp_swiss_knife_content', array() );
 
 		// Check if the option to disable Gutenberg is set
 		if ( isset( $options['disable_gutenberg'] ) && $options['disable_gutenberg'] ) {
