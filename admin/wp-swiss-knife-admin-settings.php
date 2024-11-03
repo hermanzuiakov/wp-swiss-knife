@@ -77,6 +77,29 @@ class WP_Swiss_Knife_Admin_Settings {
 			'wp_swiss_knife_security',
 			'wp_swiss_knife_section_security'
 		);
+
+        add_settings_section(
+            'support_svg_ico',
+            __( 'SVG and ICO Support', 'wp-swiss-knife' ),
+            null,
+            'wp_swiss_knife_svg_ico'
+        );
+
+        add_settings_field(
+            'enable_svg_support',
+            __( 'Enable SVG Support', 'wp-swiss-knife' ),
+            array( $this, 'render_enable_svg_support_field' ),
+            'wp_swiss_knife_svg_ico',
+            'support_svg_ico'
+        );
+
+        add_settings_field(
+            'enable_ico_support',
+            __( 'Enable ICO Support', 'wp-swiss-knife' ),
+            array( $this, 'render_enable_ico_support_field' ),
+            'wp_swiss_knife_svg_ico',
+            'support_svg_ico'
+        );
 	}
 
 	public function render_http_https_field() {
@@ -137,22 +160,52 @@ class WP_Swiss_Knife_Admin_Settings {
 	}
 
 
+    public function render_enable_svg_support_field() {
+        $options = get_option( 'wp_swiss_knife_settings' );
+        $value = $options['enable_svg_support'] ?? 0;
+        ?>
+        <input type="checkbox" id="enable_svg_support" name="wp_swiss_knife_settings[enable_svg_support]" value="1" <?php checked( 1, $value, true ); ?>>
+        <label for="enable_svg_support">
+            <?php _e( 'Enable SVG Support', 'wp-swiss-knife' ); ?>
+        </label>
+        <?php
+    }
+
+    public function render_enable_ico_support_field() {
+        $options = get_option( 'wp_swiss_knife_settings' );
+        $value = $options['enable_ico_support'] ?? 0;
+        ?>
+        <input type="checkbox" id="enable_ico_support" name="wp_swiss_knife_settings[enable_ico_support]" value="1" <?php checked( 1, $value, true ); ?>>
+        <label for="enable_ico_support">
+            <?php _e( 'Enable ICO Support', 'wp-swiss-knife' ); ?>
+        </label>
+        <?php
+    }
+
+
 	public function options_page() {
 		?>
 		<h2><?php _e( 'WP Swiss Knife Settings', 'wp-swiss-knife' ); ?></h2>
 		<h2 class="nav-tab-wrapper">
 			<a href="?page=wp_swiss_knife&tab=redirects" class="nav-tab <?php echo $this->get_active_tab() == 'redirects' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Redirects', 'wp-swiss-knife' ); ?></a>
 			<a href="?page=wp_swiss_knife&tab=security" class="nav-tab <?php echo $this->get_active_tab() == 'security' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Security', 'wp-swiss-knife' ); ?></a>
+            <a href="?page=wp_swiss_knife&tab=svg_ico" class="nav-tab <?php echo $this->get_active_tab() == 'svg_ico' ? 'nav-tab-active' : ''; ?>"><?php _e( 'SVG & ICO', 'wp-swiss-knife' ); ?></a>
 		</h2>
 		<form action="options.php" method="post">
 			<?php
 			settings_fields( 'wp_swiss_knife' );
 
-			if ( $this->get_active_tab() == 'redirects' ) {
-				do_settings_sections( 'wp_swiss_knife_redirects' );
-			} else {
-				do_settings_sections( 'wp_swiss_knife_security' );
-			}
+			switch ( $this->get_active_tab() ) {
+                case 'redirects':
+                    do_settings_sections( 'wp_swiss_knife_redirects' );
+                    break;
+                case 'security':
+                    do_settings_sections( 'wp_swiss_knife_security' );
+                    break;
+                case 'svg_ico':
+                    do_settings_sections( 'wp_swiss_knife_svg_ico' );
+                    break;
+            }
 
 			submit_button();
 			?>

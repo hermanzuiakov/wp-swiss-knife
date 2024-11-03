@@ -82,6 +82,10 @@ function wp_swiss_knife_init() {
 		new WP_Swiss_Knife_Security();
 	}
 
+	if ( class_exists( 'WP_Swiss_Knife_SVG_ICO_Support' ) ) {
+		new WP_Swiss_Knife_SVG_ICO_Support();
+	}
+
 	if ( is_admin() && class_exists( 'WP_Swiss_Knife_Admin_Settings' ) ) {
 		new WP_Swiss_Knife_Admin_Settings();
 	}
