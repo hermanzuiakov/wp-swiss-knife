@@ -100,6 +100,21 @@ class WP_Swiss_Knife_Admin_Settings {
             'wp_swiss_knife_svg_ico',
             'support_svg_ico'
         );
+
+        add_settings_section(
+            'content_settings',
+            __( 'Content Settings', 'wp-swiss-knife' ),
+            null,
+            'wp_swiss_knife_content'
+        );
+
+        add_settings_field(
+            'disable_guttenberg',
+            __( 'Disable Guttenberg', 'wp-swiss-knife' ),
+            array( $this, 'render_disable_guttenberg_field' ),
+            'wp_swiss_knife_content',
+            'content_settings'
+        );
 	}
 
 	public function render_http_https_field() {
@@ -183,6 +198,18 @@ class WP_Swiss_Knife_Admin_Settings {
     }
 
 
+    public function render_disable_guttenberg_field() {
+        $options = get_option( 'wp_swiss_knife_settings' );
+        $value = $options['disable_gutenberg'] ?? 0;
+        ?>
+        <input type="checkbox" id="disable_gutenberg" name="wp_swiss_knife_settings[disable_gutenberg]" value="1" <?php checked( 1, $value, true ); ?>>
+        <label for="disable_gutenberg">
+            <?php _e( 'Disable Guttenberg', 'wp-swiss-knife' ); ?>
+        </label>
+        <?php
+    }
+
+
 	public function options_page() {
 		?>
 		<h2><?php _e( 'WP Swiss Knife Settings', 'wp-swiss-knife' ); ?></h2>
@@ -190,6 +217,7 @@ class WP_Swiss_Knife_Admin_Settings {
 			<a href="?page=wp_swiss_knife&tab=redirects" class="nav-tab <?php echo $this->get_active_tab() == 'redirects' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Redirects', 'wp-swiss-knife' ); ?></a>
 			<a href="?page=wp_swiss_knife&tab=security" class="nav-tab <?php echo $this->get_active_tab() == 'security' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Security', 'wp-swiss-knife' ); ?></a>
             <a href="?page=wp_swiss_knife&tab=svg_ico" class="nav-tab <?php echo $this->get_active_tab() == 'svg_ico' ? 'nav-tab-active' : ''; ?>"><?php _e( 'SVG & ICO', 'wp-swiss-knife' ); ?></a>
+            <a href="?page=wp_swiss_knife&tab=content" class="nav-tab <?php echo $this->get_active_tab() == 'content' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Content', 'wp-swiss-knife' ); ?></a>
 		</h2>
 		<form action="options.php" method="post">
 			<?php
@@ -204,6 +232,9 @@ class WP_Swiss_Knife_Admin_Settings {
                     break;
                 case 'svg_ico':
                     do_settings_sections( 'wp_swiss_knife_svg_ico' );
+                    break;
+                case 'content':
+                    do_settings_sections( 'wp_swiss_knife_content' );
                     break;
             }
 
