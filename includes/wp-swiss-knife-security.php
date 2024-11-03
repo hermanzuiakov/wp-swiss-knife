@@ -7,7 +7,7 @@ class WP_Swiss_Knife_Security {
 	}
 
 	public function apply_security_settings() {
-		$options = get_option( 'wp_swiss_knife_security_settings', array() );
+		$options = get_option( 'wp_swiss_knife_settings' );
 
 		// Disable XML-RPC
 		if ( isset( $options['disable_xmlrpc'] ) && $options['disable_xmlrpc'] ) {
